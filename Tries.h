@@ -42,22 +42,30 @@ public:
         Node** borrar = &root;
         int indice = 0;
         erase_helper(del,indice,borrar);
-    }
-
-    Node* erase_helper(std::string del, int indice, Node** borrar) {
-        borrar = &(*borrar)->next[del[indice]];
         if(!(*borrar)) {
+            (*borrar) = new Node;
+        }
+    }
+private:
+    void erase_helper(std::string del, int indice, Node** borrar) {
+        if(indice == del.size()) {
+            if((*borrar)->visited && (*borrar)->next.empty())  {
+                delete (*borrar);
+                (*borrar) = nullptr;
+                return;
+            } else if((*borrar)->visited && !(*borrar)->next.empty()) {
+                (*borrar)->visited = false;
+                return;
+            }
+        }
+        erase_helper(del, indice+1,&(*borrar)->next[del[indice]]);
+        if(!(*borrar)->next[del[indice]]) {
             int h = (*borrar)->next.erase(del[indice]);
         }
-        else if((*borrar)->visited && (*borrar)->next.empty()) {
+        if(!(*borrar)->visited && (*borrar)->next.empty())  {
             delete (*borrar);
-            delete borrar;
-            borrar = nullptr;
+            (*borrar) = nullptr;
         }
-    }
-
-    void print() {
-
     }
 };
 
