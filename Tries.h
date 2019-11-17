@@ -46,6 +46,17 @@ public:
             (*borrar) = new Node;
         }
     }
+    
+    void print() {
+        Node* imprimir = root;
+        std::string pal;
+        for(auto it = imprimir->next.begin(); it != imprimir->next.end(); ++it) {
+            pal.push_back(it->first);
+            print_helper(pal, it->second);
+            pal.clear();
+        }
+    }
+    
 private:
     void erase_helper(std::string del, int indice, Node** borrar) {
         if(indice == del.size()) {
@@ -65,6 +76,21 @@ private:
         if(!(*borrar)->visited && (*borrar)->next.empty())  {
             delete (*borrar);
             (*borrar) = nullptr;
+        }
+    }
+    
+    void print_helper(std::string p, Node* r) {
+        if(r->visited && r->next.empty()) {
+            std::cout << p << std::endl;
+            return;
+        }
+        if(r->visited) {
+            std::cout << p << std::endl;
+        }
+        for(auto it = r->next.begin(); it != r->next.end(); ++it) {
+            p.push_back(it->first);
+            print_helper(p, it->second);
+            p.pop_back();
         }
     }
 };
