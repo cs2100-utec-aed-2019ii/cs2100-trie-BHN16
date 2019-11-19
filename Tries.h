@@ -24,16 +24,27 @@ public:
     }
 
     bool search_by_prefix(std::string search) {
-
+        Node* temp = root;
+        for(char i : search) {
+            if(!temp->next[i]) {
+                auto it = temp->next.find(i);
+                temp->next.erase(it);
+                return false;
+            }
+            temp = temp->next[i];
+        }
+        return !temp->visited;
     }
 
     bool search_by_complete(std::string search) {
         Node* temp = root;
         for(char i : search) {
-            temp = temp->next[i];
-            if(!temp) {
+            if(!temp->next[i]) {
+                auto it = temp->next.find(i);
+                temp->next.erase(it);
                 return false;
             }
+            temp = temp->next[i];
         }
         return temp->visited;
     }
